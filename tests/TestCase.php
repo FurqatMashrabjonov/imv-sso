@@ -1,37 +1,23 @@
 <?php
 
-namespace VendorName\Skeleton\Tests;
+namespace Imv\Sso\Tests;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
+use Imv\Sso\SsoServiceProvider;
 use Orchestra\Testbench\TestCase as Orchestra;
-use VendorName\Skeleton\SkeletonServiceProvider;
 
 class TestCase extends Orchestra
 {
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        Factory::guessFactoryNamesUsing(
-            fn (string $modelName) => 'VendorName\\Skeleton\\Database\\Factories\\'.class_basename($modelName).'Factory'
-        );
-    }
-
     protected function getPackageProviders($app)
     {
         return [
-            SkeletonServiceProvider::class,
+            SsoServiceProvider::class,
         ];
     }
 
     public function getEnvironmentSetUp($app)
     {
-        config()->set('database.default', 'testing');
-
-        /*
-         foreach (\Illuminate\Support\Facades\File::allFiles(__DIR__ . '/../database/migrations') as $migration) {
-            (include $migration->getRealPath())->up();
-         }
-         */
+        config()->set('sso.base_url', 'https://sso.example.com/');
+        config()->set('sso.client_id', 'test-client');
+        config()->set('sso.client_secret', 'test-secret');
     }
 }

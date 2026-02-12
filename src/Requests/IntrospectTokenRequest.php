@@ -1,0 +1,27 @@
+<?php
+
+namespace Imv\Sso\Requests;
+
+use Saloon\Enums\Method;
+use Saloon\Http\Request;
+
+class IntrospectTokenRequest extends Request
+{
+    protected Method $method = Method::POST;
+
+    public function __construct(
+        protected string $accessToken,
+    ) {}
+
+    public function resolveEndpoint(): string
+    {
+        return 'oauth2/introspect';
+    }
+
+    protected function defaultQuery(): array
+    {
+        return [
+            'token' => $this->accessToken,
+        ];
+    }
+}
